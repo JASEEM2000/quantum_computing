@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Body styling */
+        body {
+            background-color: #111; /* Very dark background */
+            color: #fff; /* White text color */
+            font-family: Arial, sans-serif;
+        }
+
+        /* Dashboard header styling */
+        .dashboard-header {
+            background-color: #222; /* Dark background */
+            padding: 20px;
+            text-align: center;
+            font-size: 24px;
+        }
+
+        /* Card styling */
+        .card {
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #444; /* Darker card background */
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            transition: 0.3s;
+            cursor: pointer; /* Add cursor pointer */
+        }
+
+        .card:hover {
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+        }
+
+        .card h3 {
+            font-size: 14px; /* Adjust font size */
+            margin-bottom: 5px; /* Adjust margin */
+            color: #fff; /* White title color */
+        }
+
+        .card p {
+            font-size: 16px; /* Keep description font size */
+            color: #ccc; /* Light gray text color */
+        }
+
+       /* Popup modal */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    right: 20px; /* Position from the right side */
+    bottom: 20px; /* Position from the bottom */
+}
+
+.modal-content {
+    background-color: #333; /* Dark modal background */
+    color: #fff; /* White text color */
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #fff;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Dashboard header -->
+<div class="dashboard-header">
+    <div class="container">
+        <h1 class="text-white">THE NEXT GENERATION</h1>
+    </div>
+</div>
+
+<!-- Dashboard content -->
+<div class="container mt-4">
+    <div class="row">
+        {% for card in cards %}
+        <div class="col-md-4 mb-3">
+            <div class="card" onclick="openModal('{{ card.description|escapejs }}')">
+                <h3>{{ card.title }}</h3>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Popup modal -->
+<div id="myModal" class="modal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <p id="modal-description"></p>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript -->
+<script>
+    // Function to open modal with description
+    function openModal(description) {
+        try {
+            console.log("Description received:", description); // Log the description parameter
+            var modal = document.getElementById("myModal");
+            var modalDescription = document.getElementById("modal-description");
+            if (modal && modalDescription) {
+                modal.style.display = "block";
+                modalDescription.innerHTML = description;
+            } else {
+                console.error("Modal or modal description element not found.");
+            }
+        } catch (error) {
+            console.error("Error in openModal function:", error);
+        }
+    }
+
+    // Function to close modal
+    function closeModal() {
+        try {
+            var modal = document.getElementById("myModal");
+            if (modal) {
+                modal.style.display = "none";
+            } else {
+                console.error("Modal element not found.");
+            }
+        } catch (error) {
+            console.error("Error in closeModal function:", error);
+        }
+    }
+
+    // Close modal when clicking outside of it
+    window.onclick = function(event) {
+        try {
+            var modal = document.getElementById("myModal");
+            if (modal && event.target == modal) {
+                modal.style.display = "none";
+            }
+        } catch (error) {
+            console.error("Error in window.onclick function:", error);
+        }
+    }
+</script>
+
+<!-- Bootstrap JS and jQuery (required for Bootstrap) -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
